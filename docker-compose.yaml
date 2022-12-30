@@ -1,12 +1,29 @@
 version: "3.8"
 services: 
    mongodb:
-     image: 'mongo'
+     image: mongo
      volumes:
-       - data:/data/db
+        - data:/data/db
      env_file:
-       - ./env/mongo.env
+       - ./frontend/env/mongo.env
 
-#   backend:
+   backend:
+    build: ./backend
+    ports:
+      - '80:80'
+    volumes:
+       - logs:/app/logs
+       - ./backend:/app
+       - /app/node_modules
+    env_file:
+      - ./frontend/env/backend.env
+    depends_on:
+      - mongodb
       
 #   frontend:
+
+
+volumes:
+   data:
+   logs:
+   
